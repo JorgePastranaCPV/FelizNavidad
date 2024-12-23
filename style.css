@@ -1,0 +1,144 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  overflow: hidden;
+  background: #16000a;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  color: #ffdada;
+  touch-action: none;
+}
+
+.webgl {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  outline: none;
+  touch-action: none;
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  border: 8px solid;
+  inset: 1rem;
+  z-index: 100;
+  pointer-events: none;
+}
+
+h1 {
+  position: absolute;
+  top: 20vh;
+  left: 2.5rem;
+  right: 1rem;
+  text-align: center;
+  font-family: ador-hairline, sans-serif;
+  font-weight: 900;
+  font-size: clamp(1rem, 5vw, 3vh);
+  z-index: 1000;
+}
+
+button {
+  position: absolute;
+  left: 50%;
+  top: calc(20vh + 60px);
+  transform: translate(-50%, 0);
+  min-width: 120px;
+  padding: 10px 15px;
+  background: transparent;
+  color: inherit;
+  border: 2px solid currentColor;
+  border-radius: 25px;
+  cursor: pointer;
+  z-index: 1000;
+  font-size: 14px;
+  -webkit-tap-highlight-color: transparent;
+  transition: all 0.3s ease;
+}
+
+.button-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+button:active {
+  transform: translate(-50%, 0) scale(0.95);
+}
+
+button:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+svg {
+  width: 16px;
+  height: 16px;
+}
+
+#background-music {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  body::before {
+    border-width: 4px;
+    inset: 0.5rem;
+  }
+
+  h1 {
+    top: 15vh;
+    left: 1rem;
+    right: 1rem;
+  }
+
+  button {
+    top: calc(15vh + 50px);
+    min-width: 100px;
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+
+  svg {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+* {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+@supports (padding: max(0px)) {
+  body {
+    padding-left: max(0px, env(safe-area-inset-left));
+    padding-right: max(0px, env(safe-area-inset-right));
+    padding-top: max(0px, env(safe-area-inset-top));
+    padding-bottom: max(0px, env(safe-area-inset-bottom));
+  }
+}
+
+#youtube-player {
+  position: fixed;
+  top: -9999px;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0.01;
+  pointer-events: none;
+}
