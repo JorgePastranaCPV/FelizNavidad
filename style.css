@@ -142,3 +142,99 @@ svg {
   opacity: 0.01;
   pointer-events: none;
 }
+
+#photo-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 500;
+}
+
+.photo-container {
+  position: relative;
+}
+
+.photo-wrapper {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.photo {
+  position: relative;
+  width: 250px;
+  height: 250px;
+  border-radius: 10px;
+  object-fit: cover;
+  opacity: 0;
+  transform: scale(0.1) translateY(40px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  transition: all 2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  filter: blur(15px);
+}
+
+.love-text {
+  position: absolute;
+  bottom: -60px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: #ffdada;
+  font-family: "Arial", sans-serif;
+  font-size: 18px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.5s ease;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+}
+
+.photo-wrapper.active .love-text {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.photo-wrapper.orbiting .love-text {
+  opacity: 0;
+  transition: opacity 0.3s ease-out;
+}
+
+.photo-wrapper.active .photo {
+  opacity: 1;
+  transform: scale(1.8) translateY(0);
+  filter: blur(0);
+}
+
+.photo-wrapper.orbiting .photo {
+  width: 120px;
+  height: 120px;
+  opacity: 0.9;
+  filter: blur(0);
+  transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (max-width: 768px) {
+  .photo {
+    width: 300px;
+    height: 300px;
+  }
+
+  .photo-wrapper.active .photo {
+    transform: scale(1.2) translateY(0);
+  }
+
+  .photo-wrapper.orbiting .photo {
+    width: 200px;
+    height: 200px;
+  }
+
+  .photo-wrapper.orbiting .love-text {
+    font-size: 16px;
+    bottom: -45px;
+  }
+}

@@ -77,6 +77,32 @@ class World {
     this.render();
     this.listenToResize();
     this.listenToMouseMove();
+
+    // Agregar propiedades para las imágenes
+    this.photos = [
+      "foto1.jpg",
+      "foto2.jpg",
+      "foto3.jpg",
+      "foto4.jpg",
+      "foto5.jpg",
+      // Agrega aquí las rutas a tus imágenes
+    ];
+    this.currentPhotoIndex = 0;
+    this.orbitingPhotos = [];
+    this.photoContainer = document.getElementById("photo-container");
+
+    this.loveTexts = [
+      "Te amo con todo mi corazón ❤️",
+      "Eres mi felicidad 🌟",
+      "Mi amor por ti crece cada día 🌹",
+      "Eres el amor de mi vida 💖",
+      "Juntos por siempre 💞",
+      "Mi corazón late por ti 💓",
+      "Eres mi sueño hecho realidad ✨",
+      "Te amaré por siempre 💘",
+      "Eres mi mayor bendición 🙏",
+      "Contigo todo es mejor 💑",
+    ];
   }
   start() {}
   render() {
@@ -201,6 +227,11 @@ class World {
     this.render();
     this.time.current = this.time.elapsed;
     requestAnimationFrame(this.loop.bind(this));
+
+    if (this.isRunning) {
+      // Actualizar posiciones de las fotos orbitando
+      this.updateOrbitingPhotos();
+    }
   }
   listenToResize() {
     window.addEventListener("resize", () => {
@@ -339,7 +370,6 @@ class World {
       console.log("Button clicked");
 
       try {
-        // Asegurarse de que el contexto de audio esté activo
         if (audioContext.state === "suspended") {
           await audioContext.resume();
         }
@@ -354,6 +384,11 @@ class World {
             duration: 1,
             ease: "power1.out",
           });
+
+          // Comenzar a mostrar fotos
+          this.photoInterval = setInterval(() => {
+            this.showNextPhoto();
+          }, 10000); // Volver a 10 segundos entre cada foto
         }
       } catch (error) {
         console.error("Error playing audio:", error);
@@ -445,6 +480,70 @@ class World {
     );
     this.snow = new THREE.Mesh(this.instancedGeometry, this.snowMaterial);
     this.scene.add(this.snow);
+  }
+  showNextPhoto() {
+    if (this.currentPhotoIndex >= this.photos.length) return;
+
+    const photo = document.createElement("img");
+    photo.src = this.photos[this.currentPhotoIndex];
+    photo.className = "photo";
+
+    // Crear texto
+    const text = document.createElement("div");
+    text.className = "love-text";
+    text.textContent =
+      this.loveTexts[this.currentPhotoIndex % this.loveTexts.length];
+
+    // Crear wrapper
+    const wrapper = document.createElement("div");
+    wrapper.className = "photo-wrapper";
+    wrapper.appendChild(photo);
+    wrapper.appendChild(text);
+
+    wrapper.style.left = `50%`;
+    wrapper.style.top = `50%`;
+    wrapper.style.transform = `translate(-50%, -50%)`;
+
+    photo.onload = () => {
+      this.photoContainer.appendChild(wrapper);
+
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          wrapper.classList.add("active");
+        }, 50);
+      });
+
+      setTimeout(() => {
+        wrapper.classList.remove("active");
+        wrapper.classList.add("orbiting");
+
+        const orbitData = {
+          element: wrapper,
+          angle: Math.random() * Math.PI * 2,
+          speed: 0.001 + Math.random() * 0.002,
+          radius: 180 + Math.random() * 60,
+        };
+
+        this.orbitingPhotos.push(orbitData);
+        this.updatePhotoPosition(orbitData);
+      }, 3000);
+    };
+
+    this.currentPhotoIndex++;
+  }
+
+  updatePhotoPosition(photoData) {
+    const { element, angle, radius } = photoData;
+    const x = Math.cos(angle) * radius;
+    const y = Math.sin(angle) * radius * 0.6;
+    element.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
+  }
+
+  updateOrbitingPhotos() {
+    this.orbitingPhotos.forEach((photo) => {
+      photo.angle += photo.speed;
+      this.updatePhotoPosition(photo);
+    });
   }
 }
 
