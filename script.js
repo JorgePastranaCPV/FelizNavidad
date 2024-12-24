@@ -102,22 +102,22 @@ class World {
     this.photoContainer = document.getElementById("photo-container");
 
     this.loveTexts = [
-      "Desde el primer momento que te vi... ❤️",
-      "Supe que eras especial 🌟",
-      "Cada día junto a ti ha sido mágico 💫",
-      "Me enamoré de tu sonrisa ✨",
-      "De tu forma de ser 💝",
-      "De tu dulzura y bondad 🌸",
-      "Me haces muy feliz cada día 💖",
-      "Eres mi compañera perfecta 💑",
-      "Mi apoyo incondicional 🤗",
-      "Mi amor verdadero 💘",
-      "Mi presente y mi futuro 🌟",
-      "Cada momento contigo es un tesoro 💎",
-      "Nuestro amor crece día a día 🌱",
-      "Eres mi mayor bendición 🙏",
-      "Mi razón de sonreír 😊",
-      "Por todo esto y mucho más, ¡Feliz Navidad! 🎄❤️",
+      "Este año ha sido muy bonito... ✨",
+      "Porque te conocí ❤️",
+      "Y desde ese momento la vida comenzó a ser diferente 🌟",
+      "Mucho más emocionante 💫",
+      "Cada día contigo es una nueva aventura 🌈",
+      "Llena de risas y momentos especiales 😊",
+      "Nuestras ideas compartidas 💭",
+      "Cada momento a tu lado es mágico ✨",
+      "Los pequeños detalles 🎁",
+      "Los viajes que hemos compartido 🚗",
+      "Cada momento juntos es un tesoro 💎",
+      "Y quiero seguir creando recuerdos contigo 📸",
+      "Mi compañera perfecta 💑",
+      "Gracias por compartir tu vida conmigo 🌺",
+      "La razón por la cual sonreír cada día es mucho mas facil con tu compañia ⭐",
+      "Por todos estos momentos y mucho más... ¡Feliz Navidad mi amor! 🎄❤️",
     ];
   }
   start() {}
@@ -395,15 +395,26 @@ class World {
           this.time.t0 = this.time.elapsed;
           this.data = 0;
           this.isRunning = true;
+
+          // Ocultar el botón y el título
           gsap.to(this.audioBtn, {
             opacity: 0,
             duration: 1,
             ease: "power1.out",
           });
 
+          // Ocultar el título h1
+          const title = document.querySelector("h1");
+          gsap.to(title, {
+            opacity: 0,
+            duration: 1,
+            ease: "power1.out",
+            onComplete: () => {
+              title.style.display = "none";
+            },
+          });
+
           // Calculamos el intervalo basado en la duración total
-          // 232 segundos / 16 fotos ≈ 14.5 segundos por foto
-          // Reducimos a 12 segundos para menos tiempo orbitando
           const intervalTime = 12000; // 12 segundos en milisegundos
 
           // Comenzar a mostrar fotos
@@ -506,7 +517,46 @@ class World {
     this.scene.add(this.snow);
   }
   showNextPhoto() {
-    if (this.currentPhotoIndex >= this.photos.length) return;
+    if (this.currentPhotoIndex >= this.photos.length) {
+      // Mostrar mensaje final
+      setTimeout(() => {
+        const finalMessage = document.createElement("div");
+        finalMessage.className = "final-message";
+        finalMessage.innerHTML = `
+          <div class="final-text">
+            Te amo infinitamente ❤️<br>
+            Gracias por hacer de este año el mejor!
+          </div>
+        `;
+        document.body.appendChild(finalMessage);
+
+        // Desvanecer las fotos orbitando
+        const photos = document.querySelectorAll(".photo-wrapper");
+        photos.forEach((photo) => {
+          gsap.to(photo, {
+            opacity: 0,
+            duration: 2,
+            ease: "power2.out",
+          });
+        });
+
+        // Detener la música suavemente
+        gsap.to(audioElement, {
+          volume: 0,
+          duration: 3,
+          ease: "power2.out",
+          onComplete: () => {
+            audioElement.pause();
+          },
+        });
+
+        // Recargar la página después de 8 segundos
+        setTimeout(() => {
+          window.location.reload();
+        }, 8000);
+      }, 2000);
+      return;
+    }
 
     const photo = document.createElement("img");
     photo.src = this.photos[this.currentPhotoIndex];
