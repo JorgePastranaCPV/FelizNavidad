@@ -29,14 +29,14 @@ body {
   touch-action: none;
 }
 
-body::before {
+/* body::before {
   content: "";
   position: absolute;
   border: 8px solid;
   inset: 1rem;
   z-index: 100;
   pointer-events: none;
-}
+} */
 
 h1 {
   position: absolute;
@@ -180,7 +180,7 @@ svg {
 
 .love-text {
   position: absolute;
-  bottom: -60px;
+  bottom: -100px;
   left: 0;
   right: 0;
   text-align: center;
@@ -192,6 +192,8 @@ svg {
   transition: all 0.5s ease;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
   pointer-events: none;
+  width: 100%;
+  padding: 0 20px;
 }
 
 .photo-wrapper.active .love-text {
@@ -211,8 +213,8 @@ svg {
 }
 
 .photo-wrapper.orbiting .photo {
-  width: 120px;
-  height: 120px;
+  width: 100px;
+  height: 100px;
   opacity: 0.9;
   filter: blur(0);
   transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
@@ -234,7 +236,7 @@ svg {
   }
 
   .photo-wrapper.orbiting .love-text {
-    font-size: 16px;
-    bottom: -45px;
+    font-size: 15px;
+    bottom: -80px;
   }
 }

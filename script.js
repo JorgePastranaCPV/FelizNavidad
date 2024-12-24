@@ -85,23 +85,39 @@ class World {
       "foto3.jpg",
       "foto4.jpg",
       "foto5.jpg",
-      // Agrega aquí las rutas a tus imágenes
+      "foto6.jpg",
+      "foto7.jpg",
+      "foto8.jpg",
+      "foto9.jpg",
+      "foto10.jpg",
+      "foto11.jpg",
+      "foto12.jpg",
+      "foto13.jpg",
+      "foto14.jpg",
+      "foto15.jpg",
+      "foto16.jpg",
     ];
     this.currentPhotoIndex = 0;
     this.orbitingPhotos = [];
     this.photoContainer = document.getElementById("photo-container");
 
     this.loveTexts = [
-      "Te amo con todo mi corazón ❤️",
-      "Eres mi felicidad 🌟",
-      "Mi amor por ti crece cada día 🌹",
-      "Eres el amor de mi vida 💖",
-      "Juntos por siempre 💞",
-      "Mi corazón late por ti 💓",
-      "Eres mi sueño hecho realidad ✨",
-      "Te amaré por siempre 💘",
+      "Desde el primer momento que te vi... ❤️",
+      "Supe que eras especial 🌟",
+      "Cada día junto a ti ha sido mágico 💫",
+      "Me enamoré de tu sonrisa ✨",
+      "De tu forma de ser 💝",
+      "De tu dulzura y bondad 🌸",
+      "Me haces muy feliz cada día 💖",
+      "Eres mi compañera perfecta 💑",
+      "Mi apoyo incondicional 🤗",
+      "Mi amor verdadero 💘",
+      "Mi presente y mi futuro 🌟",
+      "Cada momento contigo es un tesoro 💎",
+      "Nuestro amor crece día a día 🌱",
       "Eres mi mayor bendición 🙏",
-      "Contigo todo es mejor 💑",
+      "Mi razón de sonreír 😊",
+      "Por todo esto y mucho más, ¡Feliz Navidad! 🎄❤️",
     ];
   }
   start() {}
@@ -385,10 +401,18 @@ class World {
             ease: "power1.out",
           });
 
+          // Calculamos el intervalo basado en la duración total
+          // 232 segundos / 16 fotos ≈ 14.5 segundos por foto
+          // Reducimos a 12 segundos para menos tiempo orbitando
+          const intervalTime = 12000; // 12 segundos en milisegundos
+
           // Comenzar a mostrar fotos
           this.photoInterval = setInterval(() => {
             this.showNextPhoto();
-          }, 10000); // Volver a 10 segundos entre cada foto
+          }, intervalTime);
+
+          // Mostrar la primera foto inmediatamente
+          this.showNextPhoto();
         }
       } catch (error) {
         console.error("Error playing audio:", error);
@@ -513,6 +537,7 @@ class World {
         }, 50);
       });
 
+      // Aumentamos el tiempo que la foto se muestra grande
       setTimeout(() => {
         wrapper.classList.remove("active");
         wrapper.classList.add("orbiting");
@@ -521,12 +546,12 @@ class World {
           element: wrapper,
           angle: Math.random() * Math.PI * 2,
           speed: 0.001 + Math.random() * 0.002,
-          radius: 180 + Math.random() * 60,
+          radius: 300 + Math.random() * 100,
         };
 
         this.orbitingPhotos.push(orbitData);
         this.updatePhotoPosition(orbitData);
-      }, 3000);
+      }, 8000); // Aumentado a 8 segundos antes de comenzar a orbitar
     };
 
     this.currentPhotoIndex++;
